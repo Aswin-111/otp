@@ -14,17 +14,17 @@ function App() {
         if ("OTPCredential" in window) {
           setIsOtpSupported(true);
           const input = document.querySelector('input[autoComplete="one-time-code"]');
-          if (!input) return;
+        
 
          
           const otp = await navigator.credentials.get({
             otp: { transport: ["sms"] },
             signal: abortController.signal,
-          });
+          }).then((otp)=>{
       
           input.value = otp.code;
           setOtp(`${otp.code}`)
-          // Optionally, submit the form here
+        })
         }
       } catch (e) {
         setError(`${e}`);
