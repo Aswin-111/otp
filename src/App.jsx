@@ -13,7 +13,7 @@ function App() {
         setDeviceInfo(`${navigator.userAgentData.platform}`);
         if ("OTPCredential" in window) {
           setIsOtpSupported(true);
-          const input = document.querySelector('input[autocomplete="one-time-code"]');
+          const input = document.querySelector('input[autoComplete="one-time-code"]');
           if (!input) return;
 
           try{
