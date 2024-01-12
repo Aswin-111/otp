@@ -4,7 +4,7 @@ function App() {
   const [isOtpSupported, setIsOtpSupported] = useState(false);
   const [deviceInfo, setDeviceInfo] = useState("");
   const [error, setError] = useState("");
-
+  const [otp,setOtp] = useState("")
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -22,6 +22,7 @@ function App() {
           });
           
           input.value = otp.code;
+          setOtp(otp.code)
           // Optionally, submit the form here
         }
       } catch (e) {
@@ -53,6 +54,7 @@ function App() {
         <div className="px-10">
           <button className="w-full h-10 bg-green-500 text-white font-semibold">Submit</button>
           {isOtpSupported && <span>Auto fill available</span>}
+          {otp && <span>{otp}</span>}
           {error && <span>{error}</span>}
         </div>
       </div>
