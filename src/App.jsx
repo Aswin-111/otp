@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [isOtpSupported, setIsOtpSupported] = useState(false);
-  const [deviceInfo, setDeviceInfo] = useState("");
-  const [error, setError] = useState("");
-  const [otp,setOtp] = useState("")
+  // const [isOtpSupported, setIsOtpSupported] = useState(false);
+  // const [deviceInfo, setDeviceInfo] = useState("");
+  // const [error, setError] = useState("");
+  // const [otp,setOtp] = useState("")
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -35,20 +35,20 @@ function App() {
 
     fetchOtp();
 
-    return () => {
-      abortController.abort();
-    };
+    // return () => {
+    //   abortController.abort();
+    // };
   }, []);
 
   return (
     <div className='flex justify-center items-center h-screen bg-slate-400'>
       <div className="otppopup w-[35rem] h-[20rem] bg-white rounded-lg ">
         <div className="head w-[100%] h-[4rem] bg-black rounded-t-lg flex justify-center items-center">
-          <span className="text-white font-bold text-[20px]">{isOtpSupported ? "Enter Your mobile otp" : "Enter Your otp"}</span>
+
         </div>
         <div className="flex justify-center items-center h-[60%]">
         <form>
-  <input autoComplete="one-time-code" required/>
+  <input autoComplete="one-time-code" />
   <input type="submit"  className='w-full h-10 bg-green-500 text-white font-semibold'/>
 </form>
         </div>
