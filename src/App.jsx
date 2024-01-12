@@ -4,11 +4,14 @@ function App() {
   // const [isOtpSupported, setIsOtpSupported] = useState(false);
   // const [deviceInfo, setDeviceInfo] = useState("");
   // const [error, setError] = useState("");
-  // const [otp,setOtp] = useState("")
+  const [otp,setOtp] = useState("")
+  const [err,setErr] = useState("")
+  const [text,setText] = useState("")
   useEffect(() => {
     const abortController = new AbortController();
 
     async function fetchOtp() {
+     try{
       if ('OTPCredential' in window) {
         window.addEventListener('DOMContentLoaded', e => {
           const input = document.querySelector('input[autoComplete="one-time-code"]');
@@ -24,14 +27,21 @@ function App() {
             otp: { transport:['sms'] },
             signal: ac.signal
           }).then(otp => {
-            input.value = otp.code;
+            setText(otp)
+            setOtp(otp.code)
+            // input.value = otp.code;
             if (form) form.submit();
           }).catch(err => {
+            setErr(`${err}`)
             console.log(err);
           });
         });
       }
     }
+    catch (err) {
+      setErr(`${err}`)
+    }
+  }
 
     fetchOtp();
 
@@ -48,7 +58,10 @@ function App() {
         </div>
         <div className="flex justify-center items-center h-[60%]">
         <form>
-  <input autoComplete="one-time-code" />
+  <input autoComplete="one-time-code" value = {otp} />
+  <span>err {err}</span>
+
+  <span>text {text}</span>
   <input type="submit"  className='w-full h-10 bg-green-500 text-white font-semibold'/>
 </form>
         </div>
