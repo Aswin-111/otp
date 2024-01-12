@@ -21,8 +21,8 @@ function App() {
             signal: abortController.signal,
           });
           
-          input.value = otp.code;
-          // Optionally, submit the form here
+          input.value = otp;
+          
         }
       } catch (e) {
         setError(`${e}`);
