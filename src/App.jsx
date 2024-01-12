@@ -9,25 +9,27 @@ function App() {
     const abortController = new AbortController();
 
     async function fetchOtp() {
-      try {
-        setDeviceInfo(`${navigator.userAgentData.platform}`);
-        if ("OTPCredential" in window) {
-          setIsOtpSupported(true);
+      if ('OTPCredential' in window) {
+        window.addEventListener('DOMContentLoaded', e => {
           const input = document.querySelector('input[autoComplete="one-time-code"]');
-        
-
-         
-          const otp = await navigator.credentials.get({
-            otp: { transport: ["sms"] },
-            signal: abortController.signal,
-          }).then((otp)=>{
-      
-          input.value = otp.code;
-          setOtp(`${otp.code}`)
-        })
-        }
-      } catch (e) {
-        setError(`${e}`);
+          if (!input) return;
+          const ac = new AbortController();
+          const form = input.closest('form');
+          if (form) {
+            form.addEventListener('submit', e => {
+              ac.abort();
+            });
+          }
+          navigator.credentials.get({
+            otp: { transport:['sms'] },
+            signal: ac.signal
+          }).then(otp => {
+            input.value = otp.code;
+            if (form) form.submit();
+          }).catch(err => {
+            console.log(err);
+          });
+        });
       }
     }
 
@@ -45,19 +47,12 @@ function App() {
           <span className="text-white font-bold text-[20px]">{isOtpSupported ? "Enter Your mobile otp" : "Enter Your otp"}</span>
         </div>
         <div className="flex justify-center items-center h-[60%]">
-          <input 
-            className="w-64 h20 border-2 border-indigo-600 rounded-sm px-5 placeholder:font-bold outline-indigo-600" 
-            placeholder="Enter your otp here" 
-            autoComplete="one-time-code" 
-            inputMode="numeric"
-          />
+        <form>
+  <input autoComplete="one-time-code" required/>
+  <input type="submit"  className='w-full h-10 bg-green-500 text-white font-semibold'/>
+</form>
         </div>
-        <div className="px-10">
-          <button className="w-full h-10 bg-green-500 text-white font-semibold">Submit</button>
-          {isOtpSupported && <span>Auto fill available</span>}
-           <span className='block'>otp is {otp}</span>
-          {error && <span className='block'>err{error}</span>}
-        </div>
+       
       </div>
     </div>
   );
