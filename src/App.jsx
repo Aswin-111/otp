@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react';
 function App() {
   const [isOtpSupported, setIsOtpSupported] = useState(false);
   const [deviceInfo, setDeviceInfo] = useState("");
-  const [error, setError] = useState("");
+  
+  const [text,setText] = useState("")
 
+  const [bug,setBug] = useState("")
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -13,19 +15,27 @@ function App() {
         setDeviceInfo(`${navigator.userAgentData.platform}`);
         if ("OTPCredential" in window) {
           setIsOtpSupported(true);
-          const input = document.querySelector('input[autocomplete="one-time-code"]');
+          const input = document.getElementById('otpfill');
+          
+          
+
+
+
+          
+          setText(`${input}`)
           if (!input) return;
 
           const otp = await navigator.credentials.get({
             otp: { transport: ["sms"] },
             signal: abortController.signal,
           });
+          setText(`${input} otp: ${otp}`)
           
           input.value = otp;
           
         }
       } catch (e) {
-        setError(`${e}`);
+        setBug(`${e}`);
       }
     }
 
@@ -48,12 +58,14 @@ function App() {
             placeholder="Enter your otp here" 
             autoComplete="one-time-code" 
             inputMode="numeric"
+            id = "otpfill"
           />
         </div>
         <div className="px-10">
           <button className="w-full h-10 bg-green-500 text-white font-semibold">Submit</button>
           {isOtpSupported && <span>Auto fill available</span>}
-          {error && <span>{error}</span>}
+          <span>otp {text}</span>
+          <span>err {bug}</span>
         </div>
       </div>
     </div>
