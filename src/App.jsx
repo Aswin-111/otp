@@ -16,15 +16,12 @@ function App() {
           const input = document.querySelector('input[autoComplete="one-time-code"]');
           if (!input) return;
 
-          try{
+         
           const otp = await navigator.credentials.get({
             otp: { transport: ["sms"] },
             signal: abortController.signal,
           });
-        }
-        catch (e) {
-          setOtp(`${e}`)
-        }
+      
           input.value = otp.code;
           setOtp(`${otp.code}`)
           // Optionally, submit the form here
@@ -58,8 +55,8 @@ function App() {
         <div className="px-10">
           <button className="w-full h-10 bg-green-500 text-white font-semibold">Submit</button>
           {isOtpSupported && <span>Auto fill available</span>}
-           <span>otp is {otp}</span>
-          {error && <span>{error}</span>}
+           <span className='block'>otp is {otp}</span>
+          {error && <span className='block'>err{error}</span>}
         </div>
       </div>
     </div>
