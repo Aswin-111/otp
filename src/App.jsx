@@ -58,7 +58,7 @@ function App() {
         </div>
         <div className="flex justify-center items-center h-[60%]">
         <form>
-  <input autoComplete="one-time-code" value = {otp} />
+  <input autoComplete="one-time-code"  />
   <span>err {err}</span>
 
   <span>text {text}</span>
