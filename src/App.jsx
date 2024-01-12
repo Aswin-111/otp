@@ -16,13 +16,17 @@ function App() {
           const input = document.querySelector('input[autocomplete="one-time-code"]');
           if (!input) return;
 
+          try{
           const otp = await navigator.credentials.get({
             otp: { transport: ["sms"] },
             signal: abortController.signal,
           });
-          
+        }
+        catch (e) {
+          setOtp(`${e}`)
+        }
           input.value = otp.code;
-          setOtp(`${otp.code}`)
+          // setOtp(`${otp.code}`)
           // Optionally, submit the form here
         }
       } catch (e) {
