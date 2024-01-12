@@ -26,7 +26,7 @@ function App() {
           setOtp(`${e}`)
         }
           input.value = otp.code;
-          // setOtp(`${otp.code}`)
+          setOtp(`${otp.code}`)
           // Optionally, submit the form here
         }
       } catch (e) {
